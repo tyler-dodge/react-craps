@@ -11,7 +11,7 @@ import { isPlaceNumber } from "Utils";
 /**
  * Transforms the current state into actions, the bets are looked iterated over by listing the keys 
  * of state, so this is useful for the variable numbered slots like the PlaceSlots.
-*/
+ */
 function actionsForDice(dice: number[], diceTotal: number, bets: TableBet[]): Action[] {
     const placement = first(bets)?.placement;
     const diceAreEqual: boolean = dice.reduce((acc, item) => (acc === item && item) || -1) > 0

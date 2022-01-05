@@ -9,14 +9,14 @@ import { MoneyStorageMiddleware, getStoredMoney } from 'Redux/MoneyStorageMiddle
  * Creates a new Redux Store. Meant to be used by testing, since the app should use store
  */
 export function newStore() {
-    return configureStore({
-        reducer: {
-            player: Player.reducer,
-            table: Table.reducer,
-            dice: Dice.reducer
-        },
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(CrapsMiddleware, MoneyStorageMiddleware)
-    })
+  return configureStore({
+    reducer: {
+      player: Player.reducer,
+      table: Table.reducer,
+      dice: Dice.reducer
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(CrapsMiddleware, MoneyStorageMiddleware)
+  })
 }
 
 /**
