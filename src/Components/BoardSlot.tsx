@@ -22,11 +22,13 @@ export function PlaceBoardSlot(props: BoardSlotProps) {
     return <></>
   }
   return (
-    <div className={ disabledClass + " text-1xl h-32 border-b-2 border-r-2 border-lime-200 text-slate-700"} onClick={onClick}>
+    <div className={ disabledClass + " text-1xl h-32 border-b-2 border-r-2 relative place-items-center border-lime-200 text-slate-700"} onClick={onClick}>
       <div className="border-b-2 border-r-2 p-2 border-lime-200 min-w-fit w-fit">
         {props.placement.value}
       </div>
+      <div className="z-10 w-full grid grid-col-1 place-items-center h-full absolute top-0">
       {props.children}
+      </div>
     </div>
   )
 }
@@ -42,7 +44,7 @@ export function DiceBoardSlot(props: BoardSlotProps) {
         <Die className="border-lime-600 bg-green-400" value={Math.floor(props.placement.value / 2)} />
         <Die className="border-lime-600 bg-green-400" value={Math.floor(props.placement.value / 2) + (props.placement.value % 2)} />
       </div>
-      <div className="grid grid-col-1 items-center place-self-center absolute z-10 bottom-2 sm:bottom-8 w-full">
+      <div className="grid grid-col-1 absolute top-0 h-full items-center place-self-center place-items-center z-10 sm:bottom-8 w-full">
         {props.children}
       </div>
     </div>
@@ -54,7 +56,7 @@ export function TextBoardSlot(props: BoardSlotProps) {
   return (
     <div className={ disabledClass + " w-full min-h-fit p-8 h-16 grid grid-cols-1 border-b-2 border-lime-200 relative"} onClick={onClick}>
       <h3 className="text-1xl absolute text-center place-self-center uppercase text-2xl sm:text-6xl">{props.placement}</h3>
-      <div className="grid grid-col-1 items-center place-self-center absolute z-10 -bottom-2 w-full">
+      <div className="grid grid-col-1 place-items-center place-self-center absolute z-10 bottom-0 w-full">
         {props.children}
       </div>
     </div>

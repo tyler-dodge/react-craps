@@ -6,7 +6,6 @@ import { placeBet } from 'Redux/Actions';
 import { useAppDispatch, useAppSelector } from './hooks';
 import {  useTotalBetForSlotSelector } from './Table';
 import { PointChip } from 'Components/PointChip';
-const betIncrement = 10; 
 
 
 /**
@@ -41,6 +40,7 @@ function PassLineSlot(props: BoardSlotProps) {
  */
 function OddsSlot(props: BoardSlotProps) {
   const point = useAppSelector((state) => state.table.point);
+  const betIncrement = useAppSelector((state) => state.player.betIncrement);
   const passLineSum = useTotalBetForSlotSelector(Slot.PASS_LINE);
   const oddsSum = useTotalBetForSlotSelector(Slot.ODDS);
 
@@ -68,6 +68,7 @@ export function ConnectedBoardSlot(props: ConnectedBoardSlotProps) {
   const playerMoney = useAppSelector((state) => state.player.money);
   const point = useAppSelector((state) => state.table.point);
   const isPoint = isPlace(props.placement) && props.placement.value === point;
+  const betIncrement = useAppSelector((state) => state.player.betIncrement);
   const canAffordIncrement = playerMoney >= betIncrement;
 
   let SlotType: (props: BoardSlotProps) => JSX.Element;
@@ -97,7 +98,7 @@ export function ConnectedBoardSlot(props: ConnectedBoardSlotProps) {
   return (
     <span className='cursor-pointer select-none'>
       <SlotType isDisabled={false} {...props} onClick={() => isEnabled && dispatchPlaceBet() }>
-        {(amount > 0 && <ChipDisplay volume={amount} />) || <></> }
+        {(amount > 0 && <div className="shadow-sm shadow-black w-fit h-fit rounded-full"><ChipDisplay volume={amount} /></div>) || <></> }
         {(isPoint && <PointChip />) || <></> }
       </SlotType>
     </span>

@@ -5,6 +5,7 @@ import { ChipDisplay } from 'Components/ChipDisplay';
 import { PlayerMoney } from 'Components/PlayerMoney';
 import { DiceRoller } from 'Components/DiceRoller';
 import Slot from 'Slot';
+import ChipDenominationPicker from 'Components/ChipDenominationPicker';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         </DiceRoller>
       </div>
       <div className="sm:h-0 h-56"></div>
+      <div className="md:absolute md:left-0 md:bottom-0 grid grid-cols-5 sm:grid-cols-5 pt-4 pb-2 md:p-8 md:pt-4 md:pb-4 md:rounded-2xl bg-green-300 place-items-center">
+        <ChipDenominationPicker />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-6">
         <ConnectedBoardSlot placement={{ type: Slot.PLACE, value: 4}} />
         <ConnectedBoardSlot placement={{ type: Slot.PLACE, value: 5}} />

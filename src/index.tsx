@@ -13,7 +13,7 @@ PWAWorker.register();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <div className="max-w-screen-lg mr-auto ml-auto">
+      <div className="max-w-screen-lg mr-auto ml-auto relative min-h-screen">
         <App />
       </div>
     </Provider>

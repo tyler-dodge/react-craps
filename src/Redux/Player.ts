@@ -15,12 +15,14 @@ export interface BetPayout {
 export interface PlayerState {
   money: number;
   lastPayout: number
+  betIncrement: number;
 }
 
 const startMoney = getStoredMoney()
 const initialState = {
   money: !isMoneyTooLow() ? startMoney: 1000,
-  lastPayout: 0
+  lastPayout: 0,
+  betIncrement: 10
 } as PlayerState;
 
 export const Player = createSlice({
@@ -31,6 +33,9 @@ export const Player = createSlice({
       const payout = (action.payload.bet.amount * action.payload.multiplier)
       state.money += payout;
       state.lastPayout += payout;
+    },
+    setBetIncrement: (state, action: PayloadAction<number>) => {
+      state.betIncrement = action.payload;
     }
   },
   extraReducers: (builder) => {
