@@ -117,7 +117,7 @@ export function ConnectedBoardSlot(props: ConnectedBoardSlotProps) {
         {(isPoint && <PointChip />) || <></> }
         {canAffordIncrement && (
           <div className={" w-full h-full grid grid-cols-1 absolute place-items-center opacity-0 sm:hover:opacity-100"}>
-            {(betIncrement > 0 && <div className="shadow-sm shadow-black w-fit h-fit bottom-4 absolute rounded-full z-50"><ChipDisplay volume={betIncrement} /></div>) || <></> }
+            {(betIncrement > 0 && <div className="shadow-lg shadow-black w-fit h-fit bottom-4 absolute rounded-full z-50"><ChipDisplay volume={betIncrement} /></div>) || <></> }
           </div>
         ) || <></>
         }
