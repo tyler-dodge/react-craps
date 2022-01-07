@@ -28,7 +28,7 @@ export function ChipDenominationPicker() {
   
   function displayForVolume(volume: number) {
     const removeSelected = Math.abs(betIncrement) === volume && betIncrement < 0
-    return (<div onClick={() => { setBetIncrement(volume)}} className={selected(volume, "")}>
+    return (<div onClick={() => { setBetIncrement(volume)}} className={selected(volume, "cursor-pointer")}>
       <ChipDisplay volume={volume} size="large">
         <div onClick={(event) => {
           event.stopPropagation();
