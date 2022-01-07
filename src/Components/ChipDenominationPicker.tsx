@@ -18,31 +18,35 @@ export function ChipDenominationPicker() {
       } else if (money >= 10) {
         newIncrement = 10
       } else {
-        newIncrement = 1;
+        newIncrement = betIncrement;
       }
       setBetIncrement(newIncrement)
     }
   }, [money, betIncrement, setBetIncrement])
   
-  const selected = (amount: number, css: string) => (betIncrement === amount && 'border-2 shadow-lg shadow-lime-100 border-lime-900 rounded-full ' || '') + css
+  const selected = (amount: number, css: string) => (Math.abs(betIncrement) === amount && 'border-2 shadow-lg shadow-lime-100 border-lime-900 rounded-full ' || '') + css
+  
+  function displayForVolume(volume: number) {
+    const removeSelected = Math.abs(betIncrement) === volume && betIncrement < 0
+    return (<div onClick={() => { setBetIncrement(volume)}} className={selected(volume, "")}>
+      <ChipDisplay volume={volume} size="large">
+        <div onClick={(event) => {
+          event.stopPropagation();
+          setBetIncrement(-Math.abs(volume))
+        }} 
+             className={ (removeSelected ? "bg-green-900 ": "bg-slate-900 hover:bg-slate-800 ") + "cursor-pointer bottom-0 absolute text-xs sm:text-sm text-slate-100 h-6 sm:h-8 w-full text-center uppercase"}>Remove</div>
+      </ChipDisplay>
+    </div>)
+  }
+  
   
   return (
     <>
-      <div onClick={() => setBetIncrement(1)} className={selected(1, "")}>
-        <ChipDisplay volume={1} size="large"  />
-      </div>
-      <div onClick={() => setBetIncrement(10)} className={selected(10, ``)}>
-        <ChipDisplay volume={10} size="large" />
-      </div>
-      <div onClick={() => setBetIncrement(50)} className={selected(50, ``)}>
-        <ChipDisplay volume={50} size="large"  />
-      </div>
-      <div onClick={() => setBetIncrement(100)} className={selected(100, ``)}>
-        <ChipDisplay volume={100} size="large"  />
-      </div>
-      <div onClick={() => setBetIncrement(1000)} className={selected(1000, ``)}>
-        <ChipDisplay volume={1000} size="large"  />
-      </div>
+      {displayForVolume(1)}
+      {displayForVolume(10)}
+      {displayForVolume(50)}
+      {displayForVolume(100)}
+      {displayForVolume(1000)}
     </>
   )
 }

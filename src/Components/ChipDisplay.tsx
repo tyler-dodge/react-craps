@@ -2,7 +2,9 @@ import { format_chip_volume } from 'Utils';
 
 interface ChipDisplayProps {
   volume: number
+  remove?:  boolean
   size?: "small" | "large"
+  children?: JSX.Element[] | JSX.Element
 }
 
 export function ChipDisplay(props: ChipDisplayProps) {
@@ -33,11 +35,16 @@ export function ChipDisplay(props: ChipDisplayProps) {
   return (
     <div className={outer_class + size_class + `rounded-full 
         border-2 border-slate-600
-        p-1
+        p-1 relative overflow-hidden
         grid grid-cols-1 place-items-center`}>
       <span className={inner_class + ` rounded-full 
-          border-2 border-slate-600
-          w-full h-full grid grid-cols-1 place-items-center`}>{format_chip_volume(props.volume)}</span>
+          border-2 border-slate-600 overflow-hidden
+          w-full h-full grid grid-cols-1 place-items-center`}>
+        <span className="absolute">
+          {format_chip_volume(props.volume)}
+        </span>
+        {props.children}
+      </span>
     </div>
   )
 }

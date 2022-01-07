@@ -1,10 +1,10 @@
 import { BoardSlotProps, DiceBoardSlot, PlaceBoardSlot, TextBoardSlot } from 'Components/BoardSlot';
 import { ChipDisplay } from 'Components/ChipDisplay';
 import Slot, { isHardway, isPlace, isSingleRoll, SlotPlacement } from 'Slot';
-import { PLAYER_NAME } from 'Redux/Player';
+import { PlayerActions, PLAYER_NAME } from 'Redux/Player';
 import { placeBet } from 'Redux/Actions';
 import { useAppDispatch, useAppSelector } from './hooks';
-import {  useTotalBetForSlotSelector } from './Table';
+import { TableActions, useTotalBetForSlotSelector, useTotalNotInPlayBetForSlotSelector } from './Table';
 import { PointChip } from 'Components/PointChip';
 
 
@@ -65,6 +65,7 @@ export interface ConnectedBoardSlotProps {
 export function ConnectedBoardSlot(props: ConnectedBoardSlotProps) {
   const dispatch = useAppDispatch();
   const amount = useTotalBetForSlotSelector(props.placement);
+  const notInPlayAmount = useTotalNotInPlayBetForSlotSelector(props.placement)
   const playerMoney = useAppSelector((state) => state.player.money);
   const point = useAppSelector((state) => state.table.point);
   const isPoint = isPlace(props.placement) && props.placement.value === point;
@@ -87,19 +88,36 @@ export function ConnectedBoardSlot(props: ConnectedBoardSlotProps) {
   }
   
   
-  const dispatchPlaceBet = () => dispatch(placeBet({
-    player: PLAYER_NAME,
-    amount: betIncrement,
-    placement: props.placement
-  }));
+  const dispatchPlaceBet = () => {
+    if (betIncrement < 0) {
+      const actualAmount = Math.min(notInPlayAmount, Math.abs(betIncrement))
+      dispatch(TableActions.removeNotInPlayBet({
+        placement: props.placement,
+        amount: actualAmount
+      }))
+    } else {
+      dispatch(placeBet({
+        player: PLAYER_NAME,
+        amount: betIncrement,
+        isOn: true,
+        inPlay: false,
+        placement: props.placement
+      }))
+    }
+  };
   
   const isEnabled = canAffordIncrement;
   
   return (
     <span className='cursor-pointer select-none'>
       <SlotType isDisabled={false} {...props} onClick={() => isEnabled && dispatchPlaceBet() }>
-        {(amount > 0 && <div className="shadow-sm shadow-black w-fit h-fit rounded-full"><ChipDisplay volume={amount} /></div>) || <></> }
+        <div className={ (betIncrement < 0 && "sm:hover:opacity-50 ") + " w-full h-full grid grid-cols-1 absolute place-items-center"}>
+          {(amount > 0 && <div className="shadow-sm shadow-black w-fit h-fit rounded-full"><ChipDisplay volume={amount} /></div>) || <></> }
+        </div>
         {(isPoint && <PointChip />) || <></> }
+        <div className={" w-full h-full grid grid-cols-1 absolute place-items-center opacity-0 sm:hover:opacity-100"}>
+        {(betIncrement > 0 && <div className="shadow-sm shadow-black w-fit h-fit bottom-4 absolute rounded-full z-50"><ChipDisplay volume={betIncrement} /></div>) || <></> }
+        </div>
       </SlotType>
     </span>
   );

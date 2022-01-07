@@ -2,7 +2,7 @@ import { Action, createSlice, PayloadAction, Slice } from '@reduxjs/toolkit'
 
 import Slot, { SlotPlacement, slotKeyName, PlaceSlotPlacement } from 'Slot'
 import { moveBet, placeBet } from './Actions';
-import { dropWhile, isEqual } from 'lodash';
+import { concat, dropWhile, isEqual, partition } from 'lodash';
 import { useAppSelector } from './hooks';
 import { useMemo } from 'react';
 import { getStoredMoney, getStoredTable, isMoneyTooLow } from './MoneyStorageMiddleware';
@@ -10,6 +10,8 @@ import { getStoredMoney, getStoredTable, isMoneyTooLow } from './MoneyStorageMid
 export interface TableBet {
   player: string;
   amount: number;
+  isOn: boolean;
+  inPlay: boolean;
   placement: SlotPlacement;
 }
 
@@ -28,9 +30,25 @@ export const TableSlice: Slice<TableState> = createSlice({
   reducers: {
     setPoint(state: TableState, action: PayloadAction<PlaceSlotPlacement>) {
       state.point = action.payload.value;
+      (state.bets[slotKeyName(Slot.PASS_LINE)] || []).forEach((bet: TableBet) => { bet.inPlay = true });
     },
     clearPoint(state: TableState) {
       state.point = undefined;
+    },
+    removeNotInPlayBet(state: TableState, action: PayloadAction<TableBet>) {
+      const key = slotKeyName(action.payload.placement)
+      const [inPlay, notInPlay]  = partition(state.bets[key], (element) => element.inPlay);
+      let removeCount = action.payload.amount;
+      state.bets[key] = concat(dropWhile(notInPlay, (bet) => {
+        if (bet.amount <= removeCount) {
+          removeCount -= bet.amount;
+          return true;
+        } else {
+          bet.amount -= removeCount;
+          return false;
+        }
+      }), inPlay)
+      
     },
     removeBet(state: TableState, action: PayloadAction<TableBet>) {
       const key = slotKeyName(action.payload.placement);
@@ -77,6 +95,11 @@ export const TableActions = TableSlice.actions;
 export function useTotalBetForSlotSelector(slot: SlotPlacement): number {
   const bets = useAppSelector((state) => state.table.bets[slotKeyName(slot)]);
   return useMemo(() => (bets || []).reduce((acc, bet) => acc + bet.amount, 0), [bets])
+}
+
+export function useTotalNotInPlayBetForSlotSelector(slot: SlotPlacement): number {
+  const bets = useAppSelector((state) => state.table.bets[slotKeyName(slot)]);
+  return useMemo(() => (bets || []).filter(key => !key.inPlay).reduce((acc, bet) => acc + bet.amount, 0), [bets])
 }
 
 export default TableSlice;

@@ -135,7 +135,8 @@ function handleComeBet(diceTotal: number, table: TableState, dispatch: Dispatch)
             comeBet.forEach(bet => {
                 dispatch(moveBet([bet, {
                     ...bet,
-                    placement: {
+                  inPlay: true,
+                  placement: {
                         type: Slot.PLACE,
                         value: diceTotal
                     }

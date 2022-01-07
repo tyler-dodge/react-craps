@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { placeBet } from 'Redux/Actions';
 import { SlotPlacement } from 'Slot';
-import { TableBet } from 'Redux/Table';
+import { TableActions, TableBet } from 'Redux/Table';
 import { Actions as DiceActions } from 'Redux/Dice';
 import { getStoredMoney, isMoneyTooLow } from './MoneyStorageMiddleware';
 
@@ -41,6 +41,9 @@ export const Player = createSlice({
   extraReducers: (builder) => {
     builder.addCase(placeBet, (state, action) => {
       state.money -= action.payload.amount
+    });
+    builder.addCase(TableActions.removeNotInPlayBet, (state, action) => {
+      state.money += action.payload.amount
     });
     builder.addCase(DiceActions.rollDice, (state, action) => {
       state.lastPayout = 0

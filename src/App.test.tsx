@@ -33,6 +33,8 @@ test('store should handle dice updates', () => {
   store.dispatch(placeBet({
     player: PLAYER_NAME,
     amount: 10,
+    isOn: true,
+    inPlay: false,
     placement: {
       type: Slot.PLACE,
       value: 6
@@ -44,6 +46,8 @@ test('store should handle dice updates', () => {
   store.dispatch(placeBet({
     player: PLAYER_NAME,
     amount: 10,
+    isOn: true,
+    inPlay: false,
     placement: {
       type: Slot.PLACE,
       value: 6
@@ -62,6 +66,8 @@ test('store should handle pass line updates', () => {
   store.dispatch(placeBet({
     player: PLAYER_NAME,
     amount: 10,
+    isOn: true,
+    inPlay: false,
     placement: Slot.PASS_LINE,
   }));
   store.dispatch(Actions.rollDice([3, 3]));

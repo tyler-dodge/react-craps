@@ -22,5 +22,5 @@ export function format_chip_volume(volume: number) {
     output_volume = volume / 1000;
     output_units = "K";
   }
-  return output_volume.toLocaleString('en-US', { maximumSignificantDigits: 2 }) + output_units;
+  return output_volume.toLocaleString('en-US', { maximumSignificantDigits: 4 }) + output_units;
 }
