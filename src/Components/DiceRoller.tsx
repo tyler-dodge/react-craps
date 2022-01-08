@@ -1,4 +1,4 @@
-import { Die } from 'Components/Die';
+import { Die, overrideForDice } from 'Components/Die';
 import { useAppDispatch, useAppSelector } from 'Redux/hooks';
 import { Actions, newDice } from 'Redux/Dice';
 
@@ -9,10 +9,11 @@ export interface DiceRollerProps {
 export function DiceRoller(props: DiceRollerProps) {
   const dice: number[] = useAppSelector((state) => state.dice.value);
   const dispatch = useAppDispatch();
+  const override = overrideForDice(dice);
   return <>
     <div className="w-full bg-slate-200 grid grid-cols-1 place-items-center">
       <div className="grid grid-cols-2 place-items-center w-32 h-24 p-2 bg-slate-200">
-        {dice.map((value, index) => <Die key={index} value={value} />)}
+        {dice.map((value, index) => <Die key={index} colorOverride={override} value={value} />)}
       </div>
     </div>
     <div className="grid grid-cols-2 w-full">

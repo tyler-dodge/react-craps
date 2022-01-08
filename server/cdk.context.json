@@ -1,0 +1,14 @@
+{
+  "hosted-zone:account=183575764522:domainName=tdodge.consulting:region=us-east-1": {
+    "Id": "/hostedzone/Z2E1EPQDIK4RD",
+    "Name": "tdodge.consulting."
+  },
+  "availability-zones:account=183575764522:region=us-east-1": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1e",
+    "us-east-1f"
+  ]
+}

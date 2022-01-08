@@ -29,8 +29,10 @@ export function ChipDisplay(props: ChipDisplayProps) {
   
   let size_class = ` text-xs w-12 h-12 `
   if (props.size === "large") {
-    size_class = ` text-xl sm:w-24 sm:h-24 sm:text-3xl w-16 h-16 `
+    size_class = ` text-base sm:w-20 sm:h-20 sm:text-2xl w-16 h-16 `
   }
+  
+  const child_offset =  props.children ? ' pb-2 sm:pb-3 ': ''
   
   return (
     <div className={outer_class + size_class + `rounded-full 
@@ -40,7 +42,7 @@ export function ChipDisplay(props: ChipDisplayProps) {
       <span className={inner_class + ` rounded-full 
           border-2 border-slate-600 overflow-hidden
           w-full h-full grid grid-cols-1 place-items-center`}>
-        <span className="absolute">
+        <span className={ child_offset + "absolute"}>
           {format_chip_volume(props.volume)}
         </span>
         {props.children}

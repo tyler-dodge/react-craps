@@ -1,0 +1,5 @@
+{
+  "name": "craps",
+  "type": "@serverless-stack/resources",
+  "region": "us-east-1"
+}

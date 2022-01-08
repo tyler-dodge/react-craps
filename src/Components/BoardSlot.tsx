@@ -41,8 +41,8 @@ export function DiceBoardSlot(props: BoardSlotProps) {
   return (
     <div className={ disabledClass + " text-1xl relative h-16 sm:h-28 border-b-2 border-r-2 border-lime-200 text-slate-700"} onClick={onClick}>
       <div className="border-b-2 border-r-2 p-2 border-lime-200 min-w-fit w-fit grid grid-cols-2">
-        <Die className="border-lime-600 bg-green-400" value={Math.floor(props.placement.value / 2)} />
-        <Die className="border-lime-600 bg-green-400" value={Math.floor(props.placement.value / 2) + (props.placement.value % 2)} />
+        <Die dieColor="border-lime-600" className="border-lime-600 bg-green-400" value={Math.floor(props.placement.value / 2)} />
+        <Die dieColor="border-lime-600" className="border-lime-600 bg-green-400" value={Math.floor(props.placement.value / 2) + (props.placement.value % 2)} />
       </div>
       <div className="grid grid-col-1 absolute top-0 h-full items-center place-self-center place-items-center z-10 sm:bottom-8 w-full">
         {props.children}

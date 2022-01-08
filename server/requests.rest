@@ -1,0 +1,35 @@
+POST https://tyler-craps-api.tdodge.consulting/v1/auth/guest
+Content-Type: application/json
+
+{
+   "nickname": "Tyler"
+}
+
+#
+#
+#
+POST https://tyler-craps-api.tdodge.consulting/v1/auth/guest
+Content-Type: application/json
+
+{
+   "nickname": "INVALID INVALID INVALID INVALID INVALID INVALID INVALID INVALID INVALID INVALID INVALID INVALID"
+}
+
+#
+#
+#
+GET https://tyler-craps-api.tdodge.consulting/v1/players/d7c561eb-9ae4-4921-858e-fdb55d7e8b10
+
+#
+#
+#
+GET https://tyler-craps-api.tdodge.consulting/v1/player
+Cookie: player-key=75050fe9-bac9-4725-be8c-932010c17682; Max-Age=2592; Path=/; Expires=Sat, 08 Jan 2022 06:20:25 GMT; HttpOnly; Secure
+Cookie: player-secret=b2d35cc8-fff7-476e-92d8-3d0bc6d7e305; Max-Age=2592; Path=/; Expires=Sat, 08 Jan 2022 06:20:25 GMT; HttpOnly; Secure
+
+#
+#
+#
+GET https://tyler-craps-api.tdodge.consulting/v1/dice/next-roll-time
+Cookie: player-key=75050fe9-bac9-4725-be8c-932010c17682; Max-Age=2592; Path=/; Expires=Sat, 08 Jan 2022 06:20:25 GMT; HttpOnly; Secure
+Cookie: player-secret=b2d35cc8-fff7-476e-92d8-3d0bc6d7e305; Max-Age=2592; Path=/; Expires=Sat, 08 Jan 2022 06:20:25 GMT; HttpOnly; Secure

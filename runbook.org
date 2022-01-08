@@ -1,0 +1,54 @@
+* Deploy Server  :PTY:
+
+  
+  #+BEGIN_SRC compile-queue
+  cd {{project_root}}/server
+  yarn run serverless deploy
+  #+END_SRC
+
+* Invoke Local                                                          :PTY:
+
+  
+  #+BEGIN_SRC compile-queue
+  cd {{project_root}}/server
+  yarn run serverless invoke local --function api
+  #+END_SRC
+
+
+* Invoke Local Watch                                                    :PTY:
+
+  
+  #+BEGIN_SRC compile-queue
+  cd {{project_root}}/server
+  yarn run watch "serverless invoke local --function api -p tests/GET_players_playerId.json" --ignoreDotFiles .
+  #+END_SRC
+
+
+
+
+
+* Build SST                                                             :PTY:
+
+  
+  #+BEGIN_SRC compile-queue
+  cd {{project_root}}/server
+  yarn run sst build
+  #+END_SRC
+
+* Deploy SST                                                            :PTY:
+
+  
+  #+BEGIN_SRC compile-queue
+  cd {{project_root}}/server
+  yarn run sst deploy
+  #+END_SRC
+
+
+
+* Start SST                                                             :PTY:
+
+  
+  #+BEGIN_SRC compile-queue
+  cd {{project_root}}/server
+  yarn run sst start
+  #+END_SRC
