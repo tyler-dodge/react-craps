@@ -3,7 +3,7 @@ import {  DiceState } from "Redux/Dice";
 import { moveBet, placeBet } from "Redux/Actions";
 import { TableBet, TableActions, TableState } from "Redux/Table";
 import { PlayerActions } from "Redux/Player";
-import Slot, { isHardway, isPlace, isSingleRoll } from "Slot";
+import Slot, { isHardway, isDontComePlace, isPlace, isSingleRoll, dontComeValue } from "Slot";
 import { first } from 'lodash';
 import { isPlaceNumber } from "Utils";
 
@@ -54,7 +54,19 @@ function actionsForDice(dice: number[], diceTotal: number, bets: TableBet[]): Ac
             return bets.map(bet => TableActions.removeBet(bet))
         }
     }
+
     
+    if (isDontComePlace(placement)) {
+        if (isBigRed) {
+          return bets.flatMap(bet => [PlayerActions.payoutBet({multiplier: dontComeValue(placement.value), bet}), TableActions.removeBet(bet)]);
+        }
+        if (placement.value === diceTotal) {
+            return bets.flatMap(bet => [TableActions.removeBet(bet)]);
+        } else {
+            return [];
+        }
+    }
+
     if (isPlace(placement)) {
         if (diceTotal === 7) {
             return bets.map(bet => TableActions.removeBet(bet));
@@ -81,6 +93,65 @@ function actionsForDice(dice: number[], diceTotal: number, bets: TableBet[]): Ac
     return [];
 }
 
+function handleDontPassLine(diceTotal: number, table: TableState, dispatch: Dispatch) {
+    const isBigRed = diceTotal === 7;
+    const passLineBets = table.bets[Slot.DONT_PASS] || [];
+    const tablePoint = table.point;
+  console.log(passLineBets);
+    if (tablePoint !== undefined) {
+        if (table.point === diceTotal) {
+            dispatch(TableActions.clearPoint({}));
+            passLineBets.forEach(bet => {
+                dispatch(TableActions.removeBet(bet));
+            })
+        } else if (isBigRed) {
+            dispatch(TableActions.clearPoint({}));
+            passLineBets.forEach(bet => {
+              dispatch(PlayerActions.payoutBet({multiplier: dontComeValue(tablePoint), bet}))
+              dispatch(TableActions.removeBet(bet));
+            })
+        }
+    } else {
+        if (isBigRed || diceTotal === 11) {
+            passLineBets.forEach(bet => dispatch(TableActions.removeBet(bet)));
+        } else if (diceTotal === 2 || diceTotal === 3 || diceTotal === 12) {
+          passLineBets.forEach(bet => {
+            dispatch(PlayerActions.payoutBet({multiplier: 2, bet}))
+            dispatch(TableActions.removeBet(bet));
+          });
+        }
+    }
+}
+
+function handleDontComeBet(diceTotal: number, table: TableState, dispatch: Dispatch) {
+    const isBigRed = diceTotal === 7;
+    const comeBet = table.bets[Slot.DONT_COME_BET] || [];
+    if (comeBet.length > 0) {
+        if (isBigRed || diceTotal === 11) {
+            comeBet.forEach(bet => {
+                dispatch(TableActions.removeBet(bet));
+            })
+        } else if (diceTotal === 2 || diceTotal === 3 || diceTotal === 12) {
+            comeBet.forEach(bet => {
+              dispatch(PlayerActions.payoutBet({multiplier: 1 + 1, bet}));
+                dispatch(TableActions.removeBet(bet));
+            })
+        } else if (diceTotal === 4 || diceTotal === 5 || diceTotal === 6 || diceTotal === 8 || diceTotal === 9 || diceTotal === 10) {
+            comeBet.forEach(bet => {
+                dispatch(moveBet([bet, {
+                    ...bet,
+                  inPlay: true,
+                  placement: {
+                        type: Slot.DONT_COME_PLACE,
+                        value: diceTotal
+                    }
+                }]));
+            })
+        }
+    }
+}
+
+
 function handlePassLine(diceTotal: number, table: TableState, dispatch: Dispatch) {
     const isBigRed = diceTotal === 7;
     const passLineBets = table.bets[Slot.PASS_LINE] || [];
@@ -105,7 +176,7 @@ function handlePassLine(diceTotal: number, table: TableState, dispatch: Dispatch
             }));
         } else if (isBigRed || diceTotal === 11) {
             passLineBets.forEach(bet => dispatch(PlayerActions.payoutBet({
-                multiplier: 1,
+                multiplier: 1 + 1,
                 bet
             })));
         } else if (diceTotal === 2 || diceTotal === 3 || diceTotal === 12) {
@@ -125,7 +196,7 @@ function handleComeBet(diceTotal: number, table: TableState, dispatch: Dispatch)
             })
         } else if (diceTotal === 11) {
             comeBet.forEach(bet => {
-                dispatch(PlayerActions.payoutBet({multiplier: 1, bet}))
+                dispatch(PlayerActions.payoutBet({multiplier: 2, bet}))
             })
         } else if (diceTotal === 2 || diceTotal === 3 || diceTotal === 12) {
             comeBet.forEach(bet => {
@@ -178,8 +249,10 @@ export const CrapsMiddleware: Middleware<{}, {table: TableState, dice: DiceState
     const afterState = store.getState();
     if (beforeState.dice.counter !== afterState.dice.counter) {
         const diceTotal: number = afterState.dice.value.reduce((acc, item) => acc + item, 0);
+        handleDontPassLine(diceTotal, afterState.table, store.dispatch)
         handlePassLine(diceTotal, afterState.table, store.dispatch)
         handleComeBet(diceTotal, afterState.table, store.dispatch)
+        handleDontComeBet(diceTotal, afterState.table, store.dispatch)
         handleOddsBet(diceTotal, afterState.table, store.dispatch)
         
         for (let key in afterState.table.bets) {

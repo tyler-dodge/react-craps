@@ -1,4 +1,4 @@
-import { isHardway, isPlace, isSingleRoll, SlotPlacement } from 'Slot';
+import { isHardway, isPlace, isDontComePlace, isSingleRoll, SlotPlacement } from 'Slot';
 import Die from 'Components/Die';
 
 
@@ -14,6 +14,24 @@ function commonSettings(props: BoardSlotProps): { disabledClass: string, onClick
     disabledClass: props.isDisabled ? 'bg-green-200' : 'bg-green-300 hover:bg-green-400',
     onClick: (event) => props.isDisabled || props.onClick(event)
   }
+}
+
+export function DontComePlaceBoardSlot(props: BoardSlotProps) {
+    const {disabledClass, onClick} = commonSettings(props)
+  if (!isDontComePlace(props.placement)) {
+    return <></>
+  }
+  return (
+    <div className={ disabledClass + " text-1xl h-32 border-b-2 border-r-2 relative place-items-center border-lime-200 text-slate-700"} onClick={onClick}>
+      <div className="border-b-2 border-r-2 p-2 border-lime-200 min-w-fit w-fit">
+        DC
+        {props.placement.value}
+      </div>
+      <div className="z-10 w-full grid grid-col-1 place-items-center h-full absolute top-0">
+      {props.children}
+      </div>
+    </div>
+  )
 }
 
 export function PlaceBoardSlot(props: BoardSlotProps) {

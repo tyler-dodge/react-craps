@@ -1,6 +1,6 @@
-import { BoardSlotProps, DiceBoardSlot, PlaceBoardSlot, TextBoardSlot } from 'Components/BoardSlot';
+import { BoardSlotProps, DiceBoardSlot, DontComePlaceBoardSlot, PlaceBoardSlot, TextBoardSlot } from 'Components/BoardSlot';
 import { ChipDisplay } from 'Components/ChipDisplay';
-import Slot, { isHardway, isPlace, isSingleRoll, SlotPlacement } from 'Slot';
+import Slot, { isHardway, isPlace, isSingleRoll, SlotPlacement, isDontComePlace } from 'Slot';
 import { PlayerActions, PLAYER_NAME } from 'Redux/Player';
 import { placeBet } from 'Redux/Actions';
 import { useAppDispatch, useAppSelector } from './hooks';
@@ -83,6 +83,8 @@ export function ConnectedBoardSlot(props: ConnectedBoardSlotProps) {
     SlotType = DiceBoardSlot;
   } else if (isPlace(props.placement)) {
     SlotType = PlaceBoardSlot;
+  } else if (isDontComePlace(props.placement)) {
+    SlotType = DontComePlaceBoardSlot;
   } else {
     SlotType = TextBoardSlot;
   }
