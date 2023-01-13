@@ -1,4 +1,4 @@
-import { format_chip_volume } from 'Utils';
+import { format_chip_volume } from '#src/Utils';
 
 interface ChipDisplayProps {
   volume: number

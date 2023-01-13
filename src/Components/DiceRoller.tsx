@@ -1,6 +1,6 @@
-import { Die } from 'Components/Die';
-import { useAppDispatch, useAppSelector } from 'Redux/hooks';
-import { Actions, newDice } from 'Redux/Dice';
+import { Die } from '#src/Components/Die';
+import { useAppDispatch, useAppSelector } from '#src/Redux/hooks';
+import { Actions, newDice } from '#src/Redux/Dice';
 
 export interface DiceRollerProps {
   children?: JSX.Element;

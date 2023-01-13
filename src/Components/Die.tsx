@@ -1,4 +1,4 @@
-import { range } from 'Utils';
+import { range } from '#src/Utils';
 
 export interface DieProps {
   value: number;

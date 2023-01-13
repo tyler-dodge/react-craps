@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "Redux/hooks"
-import { PlayerActions } from "Redux/Player";
-import { ChipDisplay } from "./ChipDisplay";
+import { useAppDispatch, useAppSelector } from "#src/Redux/hooks"
+import { PlayerActions } from "#src/Redux/Player";
+import { ChipDisplay } from "#src/Components/ChipDisplay";
 
 export function ChipDenominationPicker() {
   const betIncrement = useAppSelector((state) => state.player.betIncrement);

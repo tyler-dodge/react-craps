@@ -1,9 +1,12 @@
+---
+import App from '#src/ReduxApp'
+---
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="content-language" content="en-us" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
+    <link rel="icon" href="https://craps.tdodge.consulting/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -11,7 +14,7 @@
       content="Mystery Of Fifty Series" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon-512.png?2" />
+    <link rel="apple-touch-icon" href="https://craps.tdodge.consulting/favicon-512.png?2" />
     <meta property="og:title" content="Craps" />
     <meta property="og:description" content="Play Craps Now" />
     <meta name="og:type" content="website" />
@@ -19,15 +22,10 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="og:url" content="https://craps.tdodge.consulting" />
-    <!--
-         manifest.json provides metadata used when your web app is installed on a
-         user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>CRAPS</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <App client:only="react" />
   </body>
 </html>

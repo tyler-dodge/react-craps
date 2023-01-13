@@ -1,5 +1,5 @@
-import { useAppSelector } from 'Redux/hooks';
-import { format_chip_volume } from 'Utils';
+import { useAppSelector } from '#src/Redux/hooks';
+import { format_chip_volume } from '#src/Utils';
 
 export function PlayerMoney() {
   const money = useAppSelector((state) => state.player.money);

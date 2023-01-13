@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { placeBet } from 'Redux/Actions';
-import { SlotPlacement } from 'Slot';
-import { TableActions, TableBet } from 'Redux/Table';
-import { Actions as DiceActions } from 'Redux/Dice';
-import { getStoredMoney, isMoneyTooLow } from './MoneyStorageMiddleware';
+import { placeBet } from '#src/Redux/Actions';
+import { SlotPlacement } from '#src/Slot';
+import { TableActions, TableBet } from '#src/Redux/Table';
+import { Actions as DiceActions } from '#src/Redux/Dice';
+import { getStoredMoney, isMoneyTooLow } from '#src/Redux/MoneyStorageMiddleware';
 
 export const PLAYER_NAME = 'user';
 

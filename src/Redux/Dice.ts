@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Die } from 'Components/Die';
+import { Die } from '#src/Components/Die';
 import { random } from 'lodash';
 
 

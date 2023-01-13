@@ -1,11 +1,11 @@
 import { Action, createSlice, PayloadAction, Slice } from '@reduxjs/toolkit'
 
-import Slot, { SlotPlacement, slotKeyName, PlaceSlotPlacement } from 'Slot'
-import { moveBet, placeBet } from './Actions';
+import Slot, { SlotPlacement, slotKeyName, PlaceSlotPlacement } from '#src/Slot'
+import { moveBet, placeBet } from '#src/Redux/Actions';
 import { concat, dropWhile, isEqual, partition } from 'lodash';
-import { useAppSelector } from './hooks';
+import { useAppSelector } from '#src/Redux/hooks';
 import { useMemo } from 'react';
-import { getStoredMoney, getStoredTable, isMoneyTooLow } from './MoneyStorageMiddleware';
+import { getStoredMoney, getStoredTable, isMoneyTooLow } from '#src/Redux/MoneyStorageMiddleware';
 
 export interface TableBet {
   player: string;

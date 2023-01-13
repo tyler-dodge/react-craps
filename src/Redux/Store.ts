@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import Player from 'Redux/Player'
-import Table from 'Redux/Table';
-import { Dice } from 'Redux/Dice';
-import { CrapsMiddleware } from 'Redux/CrapsMiddleware';
-import { MoneyStorageMiddleware, getStoredMoney } from 'Redux/MoneyStorageMiddleware';
+import Player from '#src/Redux/Player'
+import Table from '#src/Redux/Table';
+import { Dice } from '#src/Redux/Dice';
+import { CrapsMiddleware } from '#src/Redux/CrapsMiddleware';
+import { MoneyStorageMiddleware, getStoredMoney } from '#src/Redux/MoneyStorageMiddleware';
+import { AutorollerSlice } from './Autoroller';
+import { MysteryOfFiftySeriesSlice } from './MysteryOfFiftySeries';
 
 /**
  * Creates a new Redux Store. Meant to be used by testing, since the app should use store
@@ -13,7 +15,9 @@ export function newStore() {
     reducer: {
       player: Player.reducer,
       table: Table.reducer,
-      dice: Dice.reducer
+      dice: Dice.reducer,
+      mystery: MysteryOfFiftySeriesSlice.reducer,
+      autoroller: AutorollerSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(CrapsMiddleware, MoneyStorageMiddleware)
   })

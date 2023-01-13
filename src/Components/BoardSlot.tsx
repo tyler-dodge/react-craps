@@ -1,5 +1,5 @@
-import { isHardway, isPlace, isDontComePlace, isSingleRoll, SlotPlacement } from 'Slot';
-import Die from 'Components/Die';
+import { isHardway, isPlace, isDontComePlace, isDontComeOdds, isSingleRoll, SlotPlacement } from '#src/Slot';
+import Die from '#src/Components/Die';
 
 
 export interface BoardSlotProps { 
@@ -9,23 +9,27 @@ export interface BoardSlotProps {
   children?: JSX.Element[]
 };
 
-function commonSettings(props: BoardSlotProps): { disabledClass: string, onClick: React.MouseEventHandler } {
+export function commonSettings(props: BoardSlotProps): { disabledClass: string, onClick: React.MouseEventHandler } {
   return {
     disabledClass: props.isDisabled ? 'bg-green-200' : 'bg-green-300 hover:bg-green-400',
     onClick: (event) => props.isDisabled || props.onClick(event)
   }
 }
 
+
+
 export function DontComePlaceBoardSlot(props: BoardSlotProps) {
-    const {disabledClass, onClick} = commonSettings(props)
+    const {disabledClass, onClick} = commonSettings({
+        ...props,
+        isDisabled: true
+    })
   if (!isDontComePlace(props.placement)) {
-    return <></>
+      throw "Incorrect usage";
   }
   return (
     <div className={ disabledClass + " text-1xl h-32 border-b-2 border-r-2 relative place-items-center border-lime-200 text-slate-700"} onClick={onClick}>
       <div className="border-b-2 border-r-2 p-2 border-lime-200 min-w-fit w-fit">
-        DC
-        {props.placement.value}
+        {props.placement.value}&nbsp;DC
       </div>
       <div className="z-10 w-full grid grid-col-1 place-items-center h-full absolute top-0">
       {props.children}
@@ -35,7 +39,7 @@ export function DontComePlaceBoardSlot(props: BoardSlotProps) {
 }
 
 export function PlaceBoardSlot(props: BoardSlotProps) {
-  const {disabledClass, onClick} = commonSettings(props)
+  const {disabledClass, onClick} = commonSettings({...props, isDisabled: true})
   if (!isPlace(props.placement)) {
     return <></>
   }
